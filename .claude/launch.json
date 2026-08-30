@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "daily-crumb",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8123"],
-      "port": 8123
+      "name": "kk-knitwear",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["kk-knitwear/serve.js", "5178"],
+      "port": 5178
     }
   ]
 }
