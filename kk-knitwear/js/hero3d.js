@@ -32,11 +32,11 @@
       left: 18, width: 21, height: 58, tilt: 2.2, speed: 0.030
     },
     {
-      weave: 'honeycomb', hex: '#b78a42', seed: 'bolt-honeycomb',
+      weave: 'honeycomb', hex: '#a9542f', seed: 'bolt-honeycomb',
       left: 39, width: 25, height: 76, tilt: -1.1, speed: -0.022
     },
     {
-      weave: 'matty', hex: '#3d648b', seed: 'bolt-matty',
+      weave: 'matty', hex: '#6b7f8c', seed: 'bolt-matty',
       left: 65, width: 19, height: 51, tilt: -2.8, speed: 0.026
     }
   ];
@@ -126,7 +126,7 @@
       cap.style.marginLeft = (-w / 2) + 'px';
       cap.style.background =
         'repeating-radial-gradient(circle at 50% 50%, ' + cfg.hex + ' 0 3px, ' +
-        'rgba(8,13,17,.55) 3px 6px)';
+        'rgba(20,14,9,.55) 3px 6px)';
       cap.style.transform = 'rotateX(90deg)';
       bolt.appendChild(cap);
 

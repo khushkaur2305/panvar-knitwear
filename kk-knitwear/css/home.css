@@ -1,0 +1,345 @@
+/* ==========================================================================
+   K.K KNITWEAR CLUB — home.css
+   --------------------------------------------------------------------------
+   THE WARM GREIGE LAYER — homepage only.
+
+   index.html loads css/style.css first and then this file. Because style.css
+   is fully token-driven (its section 01), redefining those token *values*
+   here reskins the entire page — header, cards, dark sections, footer,
+   drawers, action bar — with no markup change at all.
+
+   That matters, because the category tiles, product cards and application
+   rows are built by KK.categoryTileHtml() / KK.productCardHtml() in
+   js/app.js, which fabrics.html and fabric.html also use. Their markup
+   cannot change, so every visual difference on this page comes from here.
+
+   The fabric swatch colours live in js/data.js and are shared by every page,
+   so they are deliberately untouched: indigo and teal cloth on an oat ground
+   is the raw-greige-and-dye pairing this direction is reaching for.
+
+   TO PROMOTE THIS DIRECTION SITE-WIDE: paste sections 01 and 02 below into
+   css/style.css, then delete this file and its link from index.html.
+
+   Contents
+     01. Tokens — umber, oat & sand, clay, softer radii, warm shadows
+     02. Contrast overrides required by the darker accent
+     03. Warm equivalents of the hardcoded cool rgba() values in style.css
+     04. Visible twill weave
+     05. Rounded, framed swatches
+     06. Springy hover
+     07. Softer display type
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. TOKENS
+   ========================================================================== */
+:root {
+
+  /* -- Umber replaces blue-black ink ---------------------------------- */
+  --ink-950: #140e09;
+  --ink-900: #241c16;
+  --ink-800: #332720;
+  --ink-700: #45372c;
+  --ink-600: #5b4b3d;
+  --ink-500: #756554;
+  --ink-400: #938573;
+  --ink-300: #b3a795;
+  --ink-200: #d2c9ba;
+
+  /* -- Oat and sand replace the canvas ramp --------------------------- */
+  --canvas-50:  #fbf8f2;
+  --canvas-100: #f5f0e8;
+  --canvas-200: #e8dfd1;
+  --canvas-300: #dbd0be;
+  --canvas-400: #c6b8a2;
+
+  /* Pure white reads cold against oat. */
+  --white: #fdfbf7;
+
+  /* -- Clay replaces brass -------------------------------------------
+     The ramp keeps the LIGHTNESS structure of brass so every existing
+     usage still lands: -300 is the light terracotta used for text on dark
+     grounds, -400 is the fill. Still reserved for Request a Quote plus
+     one highlight per section.                                          */
+  --brass-50:  #fdf6f1;
+  --brass-100: #f7e6db;
+  --brass-300: #e2a683;
+  --brass-400: #a9542f;
+  --brass-500: #96482a;
+  --brass-600: #7d3b22;
+  --brass-700: #64301c;
+
+  /* --loom-* (mill indigo) is deliberately NOT overridden. Indigo is what
+     ties the oat grounds to the indigo and teal cloth in the swatches, and
+     keeping it preserves the clay-for-CTAs-only discipline. */
+
+  /* -- Softer, larger radii ------------------------------------------- */
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 28px;
+
+  /* -- Warm, softer shadows ------------------------------------------- */
+  --sh-card: 0 1px 2px rgba(36, 28, 22, .05), 0 10px 30px -14px rgba(36, 28, 22, .16);
+  --sh-lift: 0 2px 6px rgba(36, 28, 22, .07), 0 28px 56px -22px rgba(36, 28, 22, .30);
+  --sh-ring: 0 0 0 1px rgba(36, 28, 22, .09);
+
+  /* -- Motion: a gentle overshoot, used for HOVER ONLY (see section 06).
+        Reveals keep --ease-silk; an overshoot on a fade-up looks wrong. */
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+}
+
+
+/* ==========================================================================
+   02. CONTRAST OVERRIDES
+   Brass was light, so style.css pairs it with dark text. Clay is dark, so
+   these four need light text instead. Measured: #a9542f behind #fbf8f2 is
+   5.0:1. A lighter clay (#bc5f33) was tried first and failed at 4.1:1 — if
+   you retune the accent, re-measure rather than eyeballing it.
+   ========================================================================== */
+.btn--brass,
+.tag--key,
+.badge--brass,
+.enquiry-btn__count { color: var(--canvas-50); }
+
+.btn--brass:hover { background: var(--brass-500); }
+.badge--brass { border-color: var(--brass-500); }
+
+/* The "listed" state has to stay distinguishable from clay. */
+.btn--brass[aria-pressed='true'] { background: var(--ink-800); }
+.btn--brass[aria-pressed='true']:hover { background: var(--ink-700); }
+
+
+/* ==========================================================================
+   03. WARM EQUIVALENTS OF THE HARDCODED COOL rgba() VALUES
+   style.css bakes a blue-black (8,13,17) into its veils, scrims and
+   translucent grounds. Over umber those read as a cold bloom, so each one is
+   restated here in warm umber (20,14,9).
+   ========================================================================== */
+
+/* Translucent light grounds */
+.header.is-scrolled {
+  background: rgba(251, 248, 242, .9);
+  box-shadow: 0 1px 20px -8px rgba(36, 28, 22, .28);
+}
+.action-bar { background: rgba(251, 248, 242, .96); }
+.cat-tile__go { background: rgba(251, 248, 242, .92); }
+
+/* Translucent dark grounds */
+.scrim { background: rgba(20, 14, 9, .55); }
+.stat-rail { background: rgba(20, 14, 9, .6); }
+.envelope__cell { background: rgba(20, 14, 9, .88); }
+.stage__note { background: rgba(20, 14, 9, .74); }
+.tag:not(.tag--key) { background: rgba(20, 14, 9, .5); }
+.locate__pin { background: rgba(20, 14, 9, .5); }
+
+/* Image veils */
+.media__veil {
+  background: linear-gradient(to top,
+    rgba(20, 14, 9, .74), rgba(20, 14, 9, .05) 55%, rgba(255, 253, 250, .1));
+}
+.panel__veil {
+  background: linear-gradient(to top,
+    var(--ink-950), rgba(20, 14, 9, .55) 45%, transparent);
+}
+.locate__veil {
+  background: linear-gradient(to top, rgba(20, 14, 9, .94), rgba(20, 14, 9, .3));
+}
+
+/* The hero stage */
+.stage__floor { background: rgba(20, 14, 9, .62); }
+.bolt__panel::after {
+  background: linear-gradient(90deg,
+    rgba(20, 14, 9, .55), rgba(255, 246, 236, .17) 42%, rgba(20, 14, 9, .5));
+}
+.bolt__cap { box-shadow: inset 0 0 14px rgba(20, 14, 9, .55); }
+.flat-bolt { box-shadow: var(--sh-lift), inset 0 0 0 1px rgba(255, 246, 236, .13); }
+.flat-bolt::before {
+  background: linear-gradient(90deg,
+    rgba(20, 14, 9, .55) 0%, rgba(255, 246, 236, .21) 30%,
+    rgba(255, 246, 236, .04) 54%, rgba(20, 14, 9, .28) 78%, rgba(20, 14, 9, .55) 100%);
+}
+
+/* Glows: one indigo, tying back to the cloth, and one clay. */
+.glow--loom { background: rgba(46, 78, 112, .24); }
+.glow--brass { background: rgba(169, 84, 47, .22); }
+
+
+/* ==========================================================================
+   04. VISIBLE TWILL WEAVE
+   Raised from about 5% to 7.5% and the stripe tightened from 7px to 6px, so
+   the cloth texture actually reads on an oat ground instead of merely
+   hinting at itself.
+   ========================================================================== */
+.tex--twill {
+  background-image: repeating-linear-gradient(45deg,
+    rgba(36, 28, 22, .075) 0 1px, transparent 1px 6px);
+}
+.tex--twill-light {
+  background-image: repeating-linear-gradient(45deg,
+    rgba(255, 255, 255, .07) 0 1px, transparent 1px 6px);
+}
+.tex--warp-light {
+  background-image: repeating-linear-gradient(90deg,
+    rgba(255, 255, 255, .06) 0 1px, transparent 1px 6px);
+}
+.tex--grid {
+  background-image:
+    linear-gradient(to right, rgba(36, 28, 22, .07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(36, 28, 22, .07) 1px, transparent 1px);
+}
+
+
+/* ==========================================================================
+   05. ROUNDED, FRAMED SWATCHES
+   The tactile move: an 8px inner frame so the cloth sits rounded INSIDE the
+   card rather than bleeding to its edge — a mounted swatch rather than a
+   photo bleed. The card padding is taken back out of the body padding, so
+   the overall rhythm is unchanged.
+   ========================================================================== */
+.product-card,
+.cat-tile { padding: .5rem; }
+
+.product-card .media,
+.cat-tile .media { border-radius: calc(var(--r-xl) - .5rem); }
+
+.product-card__body { padding: .75rem; }
+.cat-tile__foot { padding: .75rem .75rem 1rem; }
+
+/* A warm inset ring does the work on pale cloth (mesh, jali, baby blanket)
+   where the veil alone leaves no visible edge. */
+.media__ring { box-shadow: inset 0 0 0 1px rgba(36, 28, 22, .13); }
+
+/* Faint woven-paper grain over the cloth. */
+.media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(36, 28, 22, .03) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgba(255, 253, 250, .03) 0 1px, transparent 1px 3px);
+}
+
+
+/* ==========================================================================
+   06. SPRINGY HOVER
+   A slightly deeper lift on a curve that overshoots and settles. Hover only
+   — never the scroll reveals.
+   ========================================================================== */
+.product-card,
+.cat-tile,
+.cred {
+  transition: transform var(--t-slow) var(--ease-spring),
+              box-shadow var(--t-slow) var(--ease-silk),
+              border-color var(--t-slow) var(--ease-silk),
+              background-color var(--t-slow) var(--ease-silk);
+}
+.product-card:hover,
+.cat-tile:hover,
+.cred:hover { transform: translateY(-6px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card:hover,
+  .cat-tile:hover,
+  .cred:hover { transform: none; }
+}
+
+
+/* ==========================================================================
+   07. SOFTER DISPLAY TYPE
+   index.html requests the SOFT axis of Fraunces. If the axis fails to load
+   the type simply renders at default softness — nothing breaks.
+   ========================================================================== */
+h1, h2, h3, h4 { font-variation-settings: 'SOFT' 45, 'WONK' 0; }
+
+
+/* ==========================================================================
+   08. WARM TEXT ON DARK GROUNDS
+   style.css sets its light-on-dark copy in a cool greige (226,219,209). Over
+   umber that reads cold, so the same copy is restated in a warm greige
+   (214,204,189) at the same opacities.
+   ========================================================================== */
+.hero__lede { color: rgba(214, 204, 189, .78); }
+.lede--light { color: rgba(214, 204, 189, .76); }
+.stage__note p { color: rgba(214, 204, 189, .84); }
+.footer__blurb,
+.footer__cta p,
+.footer__links a,
+.footer__contact a,
+.footer address p { color: rgba(214, 204, 189, .76); }
+
+.hero__reasons dd,
+.section--ink .cred__note,
+.envelope__note,
+.footer__fact span,
+.pay-list li { color: rgba(214, 204, 189, .66); }
+
+.stat__label,
+.envelope__label,
+.footer__base-inner,
+.utility { color: rgba(214, 204, 189, .52); }
+
+/* Swatch overlay copy sits on cloth rather than on the page ground. */
+.cat-tile__count { color: rgba(253, 250, 244, .72); }
+.cat-tile__desc { color: rgba(253, 250, 244, .82); }
+.media__cat { color: rgba(253, 250, 244, .88); }
+
+
+/* ==========================================================================
+   09. "HOW WE WORK" — components for the merged section
+   A hairline grid for the six steps, matching the capability envelope below
+   it, so the whole section reads in one visual language.
+   ========================================================================== */
+
+/* Row A — the four reasons. Compact: icon, title, one line. */
+.reason__title {
+  margin-top: 1rem;
+  font-size: var(--fs-lg);
+  letter-spacing: var(--track-tight);
+}
+
+/* Row B — the six steps */
+.steps {
+  display: grid;
+  gap: 1px;
+  margin-top: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: var(--r-xl);
+  background: rgba(255, 255, 255, .1);
+}
+@media (min-width: 640px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .steps { grid-template-columns: repeat(3, 1fr); } }
+
+.steps__cell {
+  padding: 1.5rem;
+  background: rgba(20, 14, 9, .88);
+  transition: background-color var(--t-slow) var(--ease-silk);
+}
+.steps__cell:hover { background: var(--ink-900); }
+.steps__num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: var(--brass-300);
+}
+.steps__cell h3 { margin-top: .75rem; font-size: var(--fs-lg); }
+.steps__cell p {
+  margin-top: .5rem;
+  font-size: var(--fs-xs);
+  line-height: 1.65;
+  color: rgba(214, 204, 189, .66);
+}
+
+/* Row C — the line that keeps the envelope honest about being derived. */
+.steps__caption {
+  max-width: 46rem;
+  margin: 2.5rem 0 1.25rem;
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: rgba(214, 204, 189, .66);
+}

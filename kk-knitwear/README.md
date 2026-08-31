@@ -34,16 +34,20 @@ enquiry list, which needs an origin to persist to.
 ## Files
 
 ```
-index.html      Homepage — hero → trust → categories → featured → why choose us
-                → manufacturing process → applications → infrastructure
-                → testimonials → request quote
+index.html      Homepage — hero → trust → categories → featured → how we work
+                → applications → infrastructure → testimonials → request quote
+                ("How we work" merges the former Why Choose Us and
+                 Manufacturing Process sections: four reasons, six steps and
+                 the capability envelope in one dark band.)
 fabrics.html    Catalogue: search, faceted filters, sort, grid/list views
 fabric.html     Product detail, driven by ?p=<slug>
 about.html      Company · why choose us · manufacturing · infrastructure · gallery
 contact.html    Address, location, company record, full enquiry form
 
-css/style.css   One stylesheet. Numbered contents table at the top; brand
-                colours are the tokens in section 01.
+css/style.css   The shared stylesheet. Numbered contents table at the top;
+                brand colours are the tokens in section 01.
+css/home.css    The warm greige layer — index.html ONLY. See "Two design
+                directions" below.
 
 js/data.js      THE SOURCE OF TRUTH — company record, 15 categories,
                 48 products, applications, capability
@@ -167,10 +171,51 @@ handler before showing the result panel.
 
 ---
 
+## Two design directions
+
+The site currently runs **two palettes on purpose**:
+
+| | Palette | Pages |
+| --- | --- | --- |
+| Shared | Cool industrial — blue-black ink, mill indigo, brass | fabrics · fabric · about · contact |
+| Homepage | **Warm greige** — umber, oat & sand, clay | index.html |
+
+`index.html` loads `css/style.css` and then `css/home.css`, which redefines the
+same tokens in warm values. Because style.css is fully token-driven, that one
+extra file reskins the whole homepage — header, cards, dark sections, footer,
+drawers, action bar — without touching any markup or any other page.
+
+Two things the token swap alone cannot do, both handled in `home.css`:
+
+- **Contrast.** Brass was light, so style.css pairs it with dark text. Clay is
+  dark, so `.btn--brass`, `.tag--key`, `.badge--brass` and `.enquiry-btn__count`
+  are given light text. Measured 4.96:1. A lighter clay was tried first and
+  failed at 4.11:1 — **re-measure if you retune the accent.**
+- **Hardcoded cool `rgba()`.** style.css bakes a blue-black `(8,13,17)` into its
+  veils, scrims and translucent grounds; section 03 of `home.css` restates each
+  one in warm umber `(20,14,9)`.
+
+`--loom-*` (mill indigo) is deliberately *not* overridden: the fabric swatch
+colours live in `js/data.js` and are shared by every page, so indigo is what ties
+the oat grounds to the indigo and teal cloth. That pairing — raw greige and
+indigo dye — is the point of the direction.
+
+**To make the whole site warm:** copy sections 01 and 02 of `home.css` into
+`css/style.css`, then delete `home.css` and its `<link>` from `index.html`.
+
+**To revert the homepage:** delete the `home.css` `<link>` from `index.html`
+(one line), and restore the plain Fraunces request on the line above it.
+
+`js/hero3d.js` is loaded only by `index.html`, so the three fabric bolts are
+tinted warm there directly (indigo · clay · muted blue-grey).
+
+---
+
 ## Design system
 
-Everything is driven by the tokens in **section 01 of `css/style.css`**. Change
-them there and the whole site follows.
+Everything is driven by the tokens in **section 01 of `css/style.css`** — and,
+on the homepage, overridden by section 01 of `css/home.css`. Change them there
+and everything follows.
 
 | Token family | Role |
 | --- | --- |
