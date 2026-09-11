@@ -1,9 +1,9 @@
 /* ==========================================================================
-   PANWAR KNITWEAR (v2) — serve.js
+   PANWAR KNITWEAR — serve.js
    --------------------------------------------------------------------------
    A dependency-free static server for local preview:
 
-       node serve.js            -> http://localhost:5180
+       node serve.js            -> http://localhost:5179
        node serve.js 3000       -> http://localhost:3000
 
    The site is plain HTML/CSS/JS and needs no build step — index.html opens
@@ -19,7 +19,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = __dirname;
-const PORT = Number(process.argv[2]) || 5180;
+const PORT = Number(process.argv[2]) || 5179;
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
